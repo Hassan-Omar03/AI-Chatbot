@@ -1,0 +1,315 @@
+{
+  "answers": [
+    {
+      "id": 0,
+      "intent": "greeting",
+      "answer": "Hello! 👋 Welcome! I'm your AI assistant. How can I help you today? Feel free to ask me about pricing, accounts, features, support, or anything else!",
+      "keywords": [
+        "hi",
+        "hello",
+        "hey",
+        "hii",
+        "helo",
+        "hola",
+        "good morning",
+        "good afternoon",
+        "good evening",
+        "greetings",
+        "howdy",
+        "sup"
+      ],
+      "category": "greeting"
+    },
+    {
+      "id": -1,
+      "intent": "goodbye",
+      "answer": "Goodbye! 👋 It was great chatting with you. Feel free to come back anytime if you need help. Have a wonderful day!",
+      "keywords": [
+        "bye",
+        "goodbye",
+        "see you",
+        "farewell",
+        "later",
+        "cya",
+        "take care",
+        "good night"
+      ],
+      "category": "greeting"
+    },
+    {
+      "id": -2,
+      "intent": "thanks",
+      "answer": "You're very welcome! 😊 I'm happy I could help. Is there anything else you'd like to know?",
+      "keywords": [
+        "thanks",
+        "thank you",
+        "thank you so much",
+        "thanks a lot",
+        "appreciate",
+        "thx",
+        "ty"
+      ],
+      "category": "greeting"
+    },
+    {
+      "id": -3,
+      "intent": "how_are_you",
+      "answer": "I'm doing great, thank you for asking! 😊 I'm here and ready to help you with any questions you have.",
+      "keywords": [
+        "how are you",
+        "how r u",
+        "how do you do",
+        "are you ok",
+        "you ok",
+        "how's it going"
+      ],
+      "category": "greeting"
+    },
+    {
+      "id": 1,
+      "intent": "about_company",
+      "question": "What is your company?",
+      "answer": "We are a forward-thinking company focused on delivering innovative AI solutions that help businesses automate and optimize their operations. Our platform uses local AI to keep your data private and secure.",
+      "keywords": [
+        "company",
+        "about",
+        "who are you",
+        "what do you do",
+        "tell me about"
+      ],
+      "category": "general"
+    },
+    {
+      "id": 2,
+      "intent": "business_hours",
+      "question": "What are your business hours?",
+      "answer": "Our customer support team is available 24/7 to assist you. For general inquiries, we typically respond within 2 business hours. Live chat is always available on our platform.",
+      "keywords": [
+        "hours",
+        "open",
+        "available",
+        "when",
+        "support hours",
+        "time"
+      ],
+      "category": "help"
+    },
+    {
+      "id": 3,
+      "intent": "pricing",
+      "question": "How much does your service cost?",
+      "answer": "Our pricing starts at $29/month for the Basic plan, $99/month for Professional, and $299/month for Enterprise. All plans include a 14-day free trial. Contact our sales team for custom enterprise quotes.",
+      "keywords": [
+        "price",
+        "cost",
+        "pricing",
+        "subscription",
+        "plan",
+        "how much",
+        "fee"
+      ],
+      "category": "pricing"
+    },
+    {
+      "id": 4,
+      "intent": "create_account",
+      "question": "How do I create an account?",
+      "answer": "Visit our website and click 'Sign Up'. Enter your email address, create a strong password, and verify your email. You'll have instant access to start using our platform with a free trial.",
+      "keywords": [
+        "signup",
+        "register",
+        "account",
+        "create account",
+        "sign up",
+        "join",
+        "new account"
+      ],
+      "category": "account"
+    },
+    {
+      "id": 5,
+      "intent": "payment_methods",
+      "question": "What payment methods do you accept?",
+      "answer": "We accept all major credit cards (Visa, Mastercard, American Express, Discover), PayPal, Apple Pay, Google Pay, and wire transfers for enterprise accounts.",
+      "keywords": [
+        "payment",
+        "credit card",
+        "pay",
+        "billing",
+        "invoice",
+        "visa",
+        "mastercard",
+        "paypal"
+      ],
+      "category": "pricing"
+    },
+    {
+      "id": 6,
+      "intent": "free_trial",
+      "question": "Do you offer a free trial?",
+      "answer": "Yes! We offer a 14-day free trial with full access to all Professional features. No credit card required to get started. Simply sign up and begin exploring immediately.",
+      "keywords": [
+        "free trial",
+        "trial",
+        "test",
+        "demo",
+        "free",
+        "try"
+      ],
+      "category": "pricing"
+    },
+    {
+      "id": 7,
+      "intent": "reset_password",
+      "question": "How do I reset my password?",
+      "answer": "Click 'Forgot Password' on the login page, enter your email address, and we'll send you a secure reset link within 2 minutes. The link expires after 24 hours for security.",
+      "keywords": [
+        "password",
+        "reset",
+        "forgot",
+        "login",
+        "access",
+        "locked out",
+        "change password"
+      ],
+      "category": "account"
+    },
+    {
+      "id": 8,
+      "intent": "cancel_subscription",
+      "question": "Can I cancel my subscription?",
+      "answer": "You can cancel anytime from your Account Settings → Subscription tab. Your access continues until the end of your current billing period. We offer no penalties, no hidden fees, and prorated refunds where applicable.",
+      "keywords": [
+        "cancel",
+        "subscription",
+        "refund",
+        "end",
+        "stop",
+        "unsubscribe",
+        "terminate"
+      ],
+      "category": "account"
+    },
+    {
+      "id": 9,
+      "intent": "plan_features",
+      "question": "What features are included in each plan?",
+      "answer": "Here's what each plan offers:\n\n🔹 **Basic ($29/mo):** 10 projects, API access, email support\n🔹 **Professional ($99/mo):** 100 projects, priority support, analytics dashboard, integrations\n🔹 **Enterprise ($299/mo):** Unlimited projects, dedicated support, custom AI training, SSO, SLA guarantee\n\nAll plans include a 14-day free trial!",
+      "keywords": [
+        "features",
+        "what features",
+        "which features",
+        "what do you offer",
+        "what can you do",
+        "capabilities",
+        "what is included",
+        "what's included",
+        "what you provide",
+        "provide",
+        "offer",
+        "services",
+        "functionality",
+        "compare plans",
+        "plan difference",
+        "difference between plans"
+      ],
+      "category": "features"
+    },
+    {
+      "id": 10,
+      "intent": "contact_support",
+      "question": "How do I contact support?",
+      "answer": "You can reach our support team via: Email: support@company.com | Live Chat: Available on our website 24/7 | Phone: 1-800-COMPANY (Mon-Fri, 9am-6pm EST) | Account Dashboard: Submit tickets directly from your account.",
+      "keywords": [
+        "contact",
+        "support",
+        "help",
+        "reach",
+        "email",
+        "phone",
+        "chat"
+      ],
+      "category": "help"
+    },
+    {
+      "id": 11,
+      "intent": "data_security",
+      "question": "How do you protect my data?",
+      "answer": "We take data security seriously. All data is encrypted at rest (AES-256) and in transit (TLS 1.3). We are SOC 2 Type II certified, GDPR compliant, and conduct regular third-party security audits. Your data is never sold or shared.",
+      "keywords": [
+        "security",
+        "data",
+        "privacy",
+        "safe",
+        "encrypted",
+        "gdpr",
+        "protect",
+        "secure"
+      ],
+      "category": "security"
+    },
+    {
+      "id": 12,
+      "intent": "api_access",
+      "question": "Do you have an API?",
+      "answer": "Yes! Our REST API is available on all plans. Documentation is at docs.company.com/api. We support JSON, webhooks, and SDKs for Python, JavaScript, Ruby, and Go. Rate limits vary by plan.",
+      "keywords": [
+        "api",
+        "developer",
+        "sdk",
+        "integration",
+        "rest",
+        "webhook",
+        "documentation",
+        "docs"
+      ],
+      "category": "technical"
+    },
+    {
+      "id": 13,
+      "intent": "refund_policy",
+      "question": "What is your refund policy?",
+      "answer": "We offer a 30-day money-back guarantee on all annual plans. For monthly plans, we provide prorated refunds for unused time if cancelled within 7 days of renewal. Contact support@company.com to request a refund.",
+      "keywords": [
+        "refund",
+        "money back",
+        "return",
+        "guarantee",
+        "30 day",
+        "cancel refund"
+      ],
+      "category": "pricing"
+    },
+    {
+      "id": 14,
+      "intent": "system_requirements",
+      "question": "What are the system requirements?",
+      "answer": "Our web platform works on any modern browser (Chrome, Firefox, Safari, Edge). For the local AI feature, you need: Windows 10+/macOS 12+/Ubuntu 20+, 8GB RAM minimum (16GB recommended), 5GB free disk space for AI models.",
+      "keywords": [
+        "requirements",
+        "system",
+        "computer",
+        "browser",
+        "compatible",
+        "works with",
+        "minimum"
+      ],
+      "category": "technical"
+    },
+    {
+      "id": 15,
+      "intent": "upgrade_plan",
+      "question": "How do I upgrade my plan?",
+      "answer": "Go to Account Settings → Subscription → Change Plan. You can upgrade instantly and the price difference will be prorated automatically. Downgrades take effect at the next billing cycle to avoid service interruption.",
+      "keywords": [
+        "upgrade",
+        "downgrade",
+        "change plan",
+        "switch plan",
+        "higher plan",
+        "better plan"
+      ],
+      "category": "account"
+    }
+  ]
+}

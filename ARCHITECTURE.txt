@@ -1,0 +1,348 @@
+================================================================================
+SYSTEM ARCHITECTURE DIAGRAMS
+================================================================================
+
+1. HIGH-LEVEL SYSTEM OVERVIEW
+================================================================================
+
+                              INTERNET USER
+                                   │
+                    ┌──────────────┴──────────────┐
+                    │                             │
+                    ▼                             ▼
+            ┌────────────────┐         ┌────────────────┐
+            │   Web Browser  │         │   API Client   │
+            │  (HTML/JS UI)  │         │   (cURL/SDK)   │
+            └────────┬───────┘         └────────┬───────┘
+                     │                          │
+                     └──────────────┬───────────┘
+                                    │
+                          HTTP/HTTPS JSON
+                                    │
+                                    ▼
+                    ┌────────────────────────────┐
+                    │  FASTAPI WEB SERVER        │
+                    │ (uvicorn on port 8000)    │
+                    └────────────────────────────┘
+                     │         │         │
+         ┌───────────┘         │         └────────────┐
+         │                     │                      │
+         ▼                     ▼                      ▼
+    ┌─────────┐      ┌──────────────┐      ┌───────────────┐
+    │ Handler │      │   Safety     │      │   Knowledge   │
+    │ Routes  │      │   System     │      │    Base       │
+    └────┬────┘      └──────┬───────┘      └───────┬───────┘
+         │                  │                      │
+         └──────────┬───────┴──────────┬───────────┘
+                    │                  │
+                    ▼                  ▼
+            ┌──────────────┐    ┌──────────────────┐
+            │Intent        │    │NLP Analysis &    │
+            │Detector      │    │Confidence Eval   │
+            │(Classification) │ │(Scoring)         │
+            └──────┬───────┘    └──────────────────┘
+                   │                   │
+                   └─────────┬─────────┘
+                             │
+                    ┌────────▼────────┐
+                    │  LLM INFERENCE  │
+                    │  (via Ollama)   │
+                    └────────┬────────┘
+                             │
+                    ┌────────▼────────┐
+                    │  Llama 3 Model  │
+                    │  (Local GPU/CPU)│
+                    └─────────────────┘
+
+2. REQUEST/RESPONSE FLOW
+================================================================================
+
+User Types Message
+       │
+       ▼
+┌─────────────────────────────────────────┐
+│ POST /chat {message: "..."}             │
+│ Content-Type: application/json          │
+└─────────────┬───────────────────────────┘
+              │
+              ▼
+        ┌──────────────┐
+        │ FastAPI Main │
+        │ Handler      │
+        └──────┬───────┘
+               │
+               ▼
+        ┌────────────────────┐
+        │ Input Validation   │
+        │ (Pydantic)         │
+        └──────┬─────────────┘
+               │
+               ▼
+        ┌────────────────────┐
+        │ Intent Detection   │─→ Extract intent, keywords
+        │ (NLP Module)       │
+        └──────┬─────────────┘
+               │
+               ▼
+        ┌────────────────────┐
+        │ Knowledge Base     │
+        │ Lookup             │
+        └──────┬─────────────┘
+               │
+         ┌─────┴─────┐
+         │           │
+    FOUND│           │NOT FOUND
+         ▼           ▼
+    ┌────────┐  ┌──────────────┐
+    │ Return │  │ Call LLM     │
+    │ Answer │  │ (Ollama API) │
+    │ 100%   │  └──────┬───────┘
+    │Confid. │         │
+    └──┬─────┘         ▼
+       │         ┌──────────────────────┐
+       │         │ Llama 3 Generates    │
+       │         │ Response + Confidence│
+       │         └──────┬───────────────┘
+       │                │
+       │                ▼
+       │         ┌──────────────────────┐
+       │         │ Evaluate Confidence  │
+       │         │ vs Threshold (70%)   │
+       │         └──────┬───────────────┘
+       │                │
+       │         ┌──────┴──────┐
+       │         │             │
+       │    HIGH │             │ LOW
+       │    CONF │             │ CONF
+       │         ▼             ▼
+       │    ┌────────┐  ┌──────────────┐
+       │    │ Return │  │ Trigger      │
+       │    │ LLM    │  │ Support      │
+       │    │Response│  │ Escalation   │
+       │    └────────┘  └──────┬───────┘
+       │                      │
+       │                      ▼
+       │              ┌─────────────────┐
+       │              │ Create Support  │
+       │              │ Ticket & Log    │
+       │              └────────┬────────┘
+       │                       │
+       │              ┌────────▼────────┐
+       │              │ Return Support  │
+       │              │ Message + ID    │
+       │              └────────┬────────┘
+       │                       │
+       └──────────┬────────────┘
+                  │
+                  ▼
+        ┌─────────────────────────┐
+        │ Format JSON Response    │
+        │ - response              │
+        │ - confidence            │
+        │ - intent                │
+        │ - source (kb/llm/supp)  │
+        │ - ticket_id (if any)    │
+        └──────┬──────────────────┘
+               │
+               ▼
+        ┌─────────────────────────┐
+        │ HTTP 200 OK Response    │
+        │ Content-Type: app/json  │
+        └──────┬──────────────────┘
+               │
+               ▼
+        ┌─────────────────────────┐
+        │ Frontend Receives JSON  │
+        │ Displays Response       │
+        │ Shows Confidence Badge  │
+        │ Shows Source Label      │
+        └─────────────────────────┘
+
+3. DATABASE ARCHITECTURE
+================================================================================
+
+┌──────────────────────────────────────────────────────────┐
+│              Knowledge Base Interface                     │
+│          (Abstract Base Class)                           │
+└────────────────┬──────────────────────────────────────┬─┘
+                 │                                      │
+                 ▼                                      ▼
+         ┌──────────────┐                    ┌──────────────────┐
+         │ JSON Backend │                    │ SQLite Backend   │
+         │              │                    │                  │
+         │ data/        │                    │ data/            │
+         │ knowledge_   │                    │ knowledge_       │
+         │ base.json    │                    │ base.db          │
+         └──────┬───────┘                    └──────┬───────────┘
+                │                                   │
+        ┌───────┴──────────────────┐                │
+        │                          │                │
+    [search]                   [add]         [search, add, etc]
+        │                          │                │
+        │  Fast for <500 items    │  Indexed queries
+        │  Simple manual editing   │  Scales to 1000000+
+        │  No server needed        │  ACID compliant
+        │  Good for dev            │  Production ready
+
+4. COMPONENT INTERACTION DIAGRAM
+================================================================================
+
+┌──────────────────────────────────────────────────────────────┐
+│                        main.py                               │
+│                  (FastAPI Handler)                           │
+└───────┬───────────────────────────────────────────────────┬──┘
+        │                                                   │
+        │ imports                                           │ imports
+        ▼                                                   ▼
+   ┌─────────────┐  uses    ┌─────────────────┐  uses  ┌────────────┐
+   │llm_engine   │────────→│ intent_detector │──────→│database.py │
+   │.py          │         │.py              │       │            │
+   │             │         │                 │       │ JSONKBBase │
+   │ - OllamaEng │         │ - Intent class  │       │ SQLiteKBBas│
+   │ - LLMResponse        │ - INTENTS dict  │       │ - search()│
+   └──────┬──────┘         │ - detect_intent │       │ - add()  │
+          │                └────────┬────────┘       └────────────┘
+          │                         │
+          ▼                         ▼
+    HTTP to Ollama         Processes text
+    on port 11434          Classifies intent
+    Local model            Confidence calc
+                                   │
+                                   ▼
+                           ┌─────────────────┐
+                           │safety.py        │
+                           │                 │
+                           │ - Evaluate conf │
+                           │ - Create tickets│
+                           │ - Log events    │
+                           │ - Calculate     │
+                           │   statistics    │
+                           └────────┬────────┘
+                                    │
+                                    ▼
+                           ┌─────────────────┐
+                           │data/            │
+                           │support_log.json │
+                           │(Auto-created)   │
+                           └─────────────────┘
+
+5. DATA FLOW ARCHITECTURE
+================================================================================
+
+USER INPUT
+    │
+    └──→ [Frontend HTML/JS]
+         │
+         └──→ Fetch API (JSON)
+             │
+             └──→ [FastAPI Backend]
+                  │
+                  ├─→ [Intent Detector]
+                  │   └──→ Intent classification
+                  │
+                  ├─→ [Knowledge Base]
+                  │   ├──→ if FOUND: Return (100% confidence)
+                  │   └──→ if NOT FOUND: Continue
+                  │
+                  ├─→ [LLM Engine]
+                  │   ├──→ Send to Ollama HTTP API
+                  │   ├──→ Receive response
+                  │   └──→ Extract confidence
+                  │
+                  ├─→ [Safety System]
+                  │   ├──→ Evaluate confidence
+                  │   ├──→ if HIGH: Return response
+                  │   └──→ if LOW: Escalate
+                  │       └──→ Create support ticket
+                  │           └──→ Log to data/support_log.json
+                  │
+                  └──→ Format JSON response
+                      ├─→ response text
+                      ├─→ confidence score
+                      ├─→ intent detected
+                      ├─→ source (kb/llm/support)
+                      └─→ ticket_id (if escalated)
+                          │
+                          └──→ [Frontend]
+                              └──→ Display to user
+                                  ├─→ Show response
+                                  ├─→ Show confidence badge
+                                  ├─→ Show source label
+                                  └─→ Update statistics
+
+6. DEPLOYMENT ARCHITECTURE
+================================================================================
+
+┌────────────────────────────────────────────────────────┐
+│              Docker Compose Setup                      │
+└────────────────────────────────────────────────────────┘
+        │
+        ├─────────────────────┬─────────────────────┬──────────────┐
+        │                     │                     │              │
+        ▼                     ▼                     ▼              ▼
+    ┌────────┐           ┌────────┐          ┌────────┐      ┌────────┐
+    │ Ollama │           │Backend │          │ Nginx  │      │Frontend│
+    │Service │           │ Service│          │ Service│      │Files   │
+    │        │           │        │          │        │      │        │
+    │Port    │           │Port    │          │Port    │      │Static  │
+    │11434   │           │8000    │          │80      │      │HTML    │
+    │        │           │        │          │        │      │        │
+    │model   │           │Python  │          │Reverse │      │        │
+    │running │           │FastAPI │          │Proxy   │      │        │
+    └────────┘           └────────┘          └────────┘      └────────┘
+        │                    │                    │              │
+        └────────────────────┴────────────────────┴──────────────┘
+                             │
+                    Shared Network
+                 (local_ai_network)
+                             │
+        ┌────────────────────┴────────────────────┐
+        │                                         │
+        ▼                                         ▼
+    ┌────────────┐                         ┌────────────┐
+    │Volumes:    │                         │Volumes:    │
+    │- ollama_   │                         │- ./data    │
+    │  data      │                         │- ./backend │
+    │(models)    │                         │            │
+    └────────────┘                         └────────────┘
+
+7. FILE STRUCTURE TREE
+================================================================================
+
+local-ai-backend/
+│
+├── backend/
+│   ├── main.py                    # FastAPI application (301 lines)
+│   ├── llm_engine.py              # Ollama integration (145 lines)
+│   ├── intent_detector.py         # NLP engine (149 lines)
+│   ├── database.py                # Knowledge base (205 lines)
+│   ├── safety.py                  # Safety system (176 lines)
+│   └── .env.example               # Config template
+│
+├── frontend/
+│   └── index.html                 # Web UI (645 lines)
+│
+├── data/
+│   ├── knowledge_base.json        # Q&A database (10 examples)
+│   └── support_log.json           # Auto-created logs
+│
+├── requirements.txt               # Python dependencies
+├── start.sh                       # Unix startup
+├── start.bat                      # Windows startup
+├── Dockerfile                     # Docker image
+├── docker-compose.yml             # Multi-container
+├── nginx.conf                     # Reverse proxy
+│
+└── Documentation/
+    ├── README.md                  # Full docs (583 lines)
+    ├── QUICKSTART.md              # 5-min guide (137 lines)
+    ├── SETUP.md                   # Installation (516 lines)
+    ├── API_EXAMPLES.md            # API testing (450 lines)
+    ├── CONFIG_REFERENCE.md        # Configuration (543 lines)
+    ├── PROJECT_OVERVIEW.md        # Overview (475 lines)
+    ├── ARCHITECTURE.txt           # This file
+    └── IMPLEMENTATION_SUMMARY.txt # Summary (524 lines)
+
+================================================================================
+END OF ARCHITECTURE DIAGRAMS
+================================================================================

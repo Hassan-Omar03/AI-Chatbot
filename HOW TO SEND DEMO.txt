@@ -1,0 +1,63 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  HOW TO SEND DEMO TO CLIENT (Without Sending Files)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The Strategy:
+  ✅ Client gets ONE HTML file ("DEMO - AI Chatbot.html")
+  ✅ The bot FULLY WORKS when your server is running
+  ✅ Client cannot run it without YOU (your server/API)
+  ✅ When they stop paying / haven't paid: close your server
+  ✅ When payment received: send them the full release folder
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STEP 1: Install ngrok (one time only)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. Go to: https://ngrok.com/download
+  2. Sign up for a FREE account
+  3. Download ngrok for Windows
+  4. Extract ngrok.exe to: C:\Windows\ (or any folder in PATH)
+  5. Run: ngrok config add-authtoken YOUR_TOKEN
+     (your token is at: https://dashboard.ngrok.com/get-started/your-authtoken)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STEP 2: Start Demo Server (every time client wants to test)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Double-click: "START DEMO SERVER (run this first).bat"
+
+  This script will:
+    ✅ Start your chatbot backend
+    ✅ Create a public ngrok URL
+    ✅ Auto-update the demo HTML with your URL
+    ✅ Show you the URL to share
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STEP 3: Send to Client
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Send them ONLY this one file:
+    📄 DEMO - AI Chatbot.html
+
+  They just double-click it → browser opens → bot works!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STEP 4: Control Access
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ✅ BOT WORKS:  Keep "START DEMO SERVER" window open
+  ❌ STOP ACCESS: Close the "START DEMO SERVER" window
+  💰 PAID:       Send them the full "release" folder (AI-Chatbot-Client.zip)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  NOTE: ngrok free = URL changes each restart
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Each time you restart the bat file, you get a NEW ngrok URL.
+  The bat script auto-updates the HTML file for you.
+  Just re-send the updated HTML to the client.
+
+  OR: Get ngrok paid plan ($10/mo) for a fixed static URL
+  so you never need to resend the file.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

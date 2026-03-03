@@ -1,0 +1,20 @@
+================================================
+ AI CHATBOT — DIAGNOSIS REPORT
+ Generated: 24-Feb-26 21:01:22.19
+================================================
+
+[CHECK 1] Extraction Check:
+  OK  - Not running from ZIP 
+ 
+[CHECK 2] Required Files:
+  OK  - chatbot-server.exe 
+  OK  - _internal folder 
+  OK  - frontend\index.html 
+  OK  - .env file 
+  WARN - .env file not found 
+  OK  - knowledge_base.json 
+  WARN - knowledge_base.json not found (auto-created on start) 
+ 
+[CHECK 3] Windows Version:
+  Microsoft Windows [Version 10.0.19045.6466] 
+ 

@@ -1,0 +1,32 @@
+{
+  "tickets": [
+    {
+      "id": "TKT-20260219-174454-9258",
+      "timestamp": "2026-02-19T17:44:54.653819",
+      "user_message": "hi",
+      "ai_response": "AI service error. Please contact support.",
+      "confidence_score": 0.0,
+      "intent": "greeting",
+      "reason": "llm_unavailable"
+    },
+    {
+      "id": "TKT-20260219-174619-6138",
+      "timestamp": "2026-02-19T17:46:19.958628",
+      "user_message": "goog morning",
+      "ai_response": "AI service error. Please contact support.",
+      "confidence_score": 0.0,
+      "intent": "general",
+      "reason": "llm_unavailable"
+    },
+    {
+      "id": "TKT-20260219-174648-9250",
+      "timestamp": "2026-02-19T17:46:48.474999",
+      "user_message": "Groq",
+      "ai_response": "AI service error. Please contact support.",
+      "confidence_score": 0.0,
+      "intent": "general",
+      "reason": "llm_unavailable"
+    }
+  ],
+  "total_escalations": 3
+}
