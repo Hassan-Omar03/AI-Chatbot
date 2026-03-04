@@ -29,7 +29,13 @@ function loadStats(): ChatStats {
   }
 }
 
+// Detect if we're running on Vercel (cloud) — Ollama won't be available there
+const IS_VERCEL = process.env.VERCEL === '1' || !!process.env.VERCEL_URL
+
 async function checkOllamaHealth(): Promise<boolean> {
+  // On Vercel, localhost:11434 (Ollama) is never available — skip the check
+  if (IS_VERCEL) return false
+
   try {
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 3000)
@@ -58,5 +64,6 @@ export async function GET() {
     total_chats: stats.total_chats,
     average_confidence:
       stats.total_chats > 0 ? stats.total_confidence / stats.total_chats : 0,
+    is_cloud: IS_VERCEL,
   })
 }

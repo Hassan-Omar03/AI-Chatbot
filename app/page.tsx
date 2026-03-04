@@ -25,6 +25,7 @@ interface SystemStatus {
   uptime: number
   total_chats: number
   average_confidence: number
+  is_cloud?: boolean
 }
 
 export default function Home() {
@@ -134,6 +135,11 @@ export default function Home() {
                       <CheckCircle className="w-4 h-4 text-green-500" />
                       <span className="text-green-400">Online</span>
                     </>
+                  ) : systemStatus.is_cloud ? (
+                    <>
+                      <CheckCircle className="w-4 h-4 text-blue-400" />
+                      <span className="text-blue-400">Cloud Mode</span>
+                    </>
                   ) : (
                     <>
                       <AlertCircle className="w-4 h-4 text-red-500" />
@@ -191,11 +197,10 @@ export default function Home() {
                 messages.map(msg => (
                   <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     <div
-                      className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                        msg.role === 'user'
+                      className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${msg.role === 'user'
                           ? 'bg-blue-600 text-white'
                           : 'bg-slate-700 text-slate-100'
-                      }`}
+                        }`}
                     >
                       <p className="text-sm">{msg.content}</p>
                       {msg.role === 'assistant' && (
@@ -258,7 +263,11 @@ export default function Home() {
 
         {/* Footer */}
         <div className="mt-6 text-center text-sm text-slate-400">
-          <p>This AI runs entirely on your local machine. No data is sent to external servers.</p>
+          <p>
+            {systemStatus?.is_cloud
+              ? 'Running in cloud mode · Powered by knowledge base'
+              : 'This AI runs entirely on your local machine. No data is sent to external servers.'}
+          </p>
         </div>
       </div>
     </div>
